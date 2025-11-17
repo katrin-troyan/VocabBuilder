@@ -37,6 +37,27 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+export const loginUser = createAsyncThunk(
+  "auth/loginUser",
+  async (payload: { email: string; password: string }, thunkAPI) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      if (payload.email === "error@example.com") {
+        return thunkAPI.rejectWithValue("Невірний email або пароль");
+      }
+
+      return {
+        token: "mock-token-login",
+        name: "User Name",
+        email: payload.email,
+      };
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Server error");
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,

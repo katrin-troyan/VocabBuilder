@@ -12,9 +12,20 @@ export const authStyles = StyleSheet.create({
     height: 191,
     alignSelf: "center",
     marginTop: 64,
-    marginBottom: 8,
+    marginBottom: 16,
     zIndex: -1,
   },
+
+  text: {
+    position: "absolute",
+    zIndex: -1,
+    fontFamily: "FixelDisplayRegular",
+    fontSize: 14,
+    color: "rgba(18, 20, 23, 0.8)",
+    marginTop: 271,
+    alignSelf: "center",
+  },
+
   containerText: {
     flex: 1,
     alignItems: "center",
@@ -24,6 +35,17 @@ export const authStyles = StyleSheet.create({
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     marginTop: 259,
+    zIndex: 1,
+  },
+  containerLogin: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "#ECF0EF",
+    paddingTop: 32,
+    paddingHorizontal: 25,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    marginTop: 357,
     zIndex: 1,
   },
   title: {
