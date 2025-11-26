@@ -1,8 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
-import AuthNavigator from "./src/navigation/AuthNavigator/AuthNavigator";
 import { useFonts } from "expo-font";
 import { Provider } from "react-redux";
 import { store } from "./src/redux/store";
+import RootNavigator from "./src/navigation/RootNavigator/RootNavigator";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -14,7 +14,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <AuthNavigator />
+        <RootNavigator />
       </NavigationContainer>
     </Provider>
   );

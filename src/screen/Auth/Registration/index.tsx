@@ -53,10 +53,6 @@ export default function Registration() {
   const onSubmit = async (data: FormData) => {
     const result = await dispatch(registerUser(data));
 
-    if (registerUser.fulfilled.match(result)) {
-      navigation.navigate("Home" as never);
-    }
-
     if (registerUser.rejected.match(result)) {
       setModalVisible(true);
     }

@@ -57,10 +57,6 @@ export default function Login() {
       loginUser({ email: data.email, password: data.password })
     );
 
-    if (loginUser.fulfilled.match(result)) {
-      navigation.navigate("Home" as never);
-    }
-
     if (loginUser.rejected.match(result)) {
       setModalVisible(true);
     }
