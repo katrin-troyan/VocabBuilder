@@ -1,24 +1,30 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Avatar, Logout } from "../../assets/icons";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
+import { logout } from "../../redux/auth/authSlice";
 
 export default function Header() {
   const user = useSelector((state: RootState) => state.auth.user);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   return (
     <View style={styles.wrapper}>
       <View style={styles.containerAvatar}>
-        <View style={styles.burgerBtn}>
-          <Avatar fill={"#121417"} />
-          <Text style={styles.username}>{user?.name ?? "User"}</Text>
+        <View style={styles.avatarCircle}>
+          <Avatar fill={"#FCFCFC"} />
         </View>
+        <Text style={styles.username}>{user?.name ?? "User"}</Text>
       </View>
 
-      <View>
-        <Text>Log out</Text>
+      <TouchableOpacity style={styles.logoutContainer} onPress={handleLogout}>
+        <Text style={styles.logoutText}>Log out</Text>
         <Logout fill={"#121417"} />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -28,20 +34,36 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 69,
     paddingHorizontal: 16,
-    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
+    marginTop: 44,
+    marginBottom: 8,
   },
   containerAvatar: {
-    flexDirection: "column",
+    alignItems: "center",
+  },
+  avatarCircle: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: "#C1D2C3",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 4,
+  },
+  username: {
+    fontSize: 12,
+    color: "#121417",
+  },
+  logoutContainer: {
+    position: "absolute",
+    right: 16,
+    flexDirection: "row",
     alignItems: "center",
     gap: 4,
   },
-  username: {
-    fontSize: 10,
-  },
-  burgerBtn: {
-    height: 20,
-    width: 20,
-    gap: 5,
+  logoutText: {
+    fontSize: 14,
+    color: "#121417",
   },
 });
