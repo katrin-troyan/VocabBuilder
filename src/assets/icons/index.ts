@@ -7,5 +7,19 @@ import Avatar from "./Avatar";
 import Book from "./Book";
 import Edit from "./Edit";
 import Star from "./Star";
+import Arrow from "./Arrow";
+import Plus from "./Plus";
 
-export { EyeOff, Eye, ErrorWar, ChekBox, Logout, Avatar, Book, Edit, Star };
+export {
+  EyeOff,
+  Eye,
+  ErrorWar,
+  ChekBox,
+  Logout,
+  Avatar,
+  Book,
+  Edit,
+  Star,
+  Arrow,
+  Plus,
+};

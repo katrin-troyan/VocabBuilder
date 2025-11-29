@@ -9,6 +9,7 @@ export default function App() {
     FixelDisplayRegular: require("./assets/fronts/FixelDisplay-Regular.otf"),
     FixelDisplaySemiBold: require("./assets/fronts/FixelDisplay-SemiBold.otf"),
     FixelDisplayBold: require("./assets/fronts/FixelDisplay-Bold.otf"),
+    FixelDisplayMedium: require("./assets/fronts/FixelDisplay-Medium.ttf"),
   });
 
   return (

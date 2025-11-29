@@ -1,21 +1,20 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Book, Edit, Star } from "../../assets/icons";
-import { useState } from "react";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { NavigationProp } from "@react-navigation/native";
+import { useEffect, useState } from "react";
+import { NavigationProp, useRoute } from "@react-navigation/native";
 import { RootParamList } from "../types";
 
 type Props = {
   navigation: NavigationProp<RootParamList>;
+  activeScreen: keyof RootParamList;
 };
 
-export default function BottomTabs({ navigation }: Props) {
-  const [active, setActive] = useState("Dictionary");
-
+export default function BottomTabs({ navigation, activeScreen }: Props) {
   const handlePress = (screen: keyof RootParamList) => {
-    setActive(screen);
     navigation.navigate(screen);
   };
+
+  const active = activeScreen;
 
   return (
     <View style={styles.container}>

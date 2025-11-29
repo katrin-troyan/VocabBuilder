@@ -35,7 +35,6 @@ export default function Login() {
   const dispatch = useDispatch<any>();
 
   const [isPassHidden, setIsPassHidden] = useState(true);
-  const [isNameTouched, setIsNameTouched] = useState(false);
   const [isEmailTouched, setIsEmailTouched] = useState(false);
   const [isPasswordTouched, setIsPasswordTouched] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);

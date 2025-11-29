@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   username: {
+    fontFamily: "FixelDisplayMedium",
     fontSize: 12,
     color: "#121417",
   },
@@ -63,7 +64,9 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   logoutText: {
-    fontSize: 14,
-    color: "#121417",
+    fontFamily: "FixelDisplayMedium",
+    fontSize: 16,
+    lineHeight: 24,
+    color: "#85AA9F",
   },
 });

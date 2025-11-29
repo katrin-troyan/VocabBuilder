@@ -7,22 +7,46 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import Recommend from "../../screen/Recommend";
 import Training from "../../screen/Training";
 import { RootParamList } from "../types";
+import AddWord from "../../screen/AddWord";
+import { useState } from "react";
 
 const Stack = createNativeStackNavigator();
 
 export default function HomeNavigator() {
   const navigation = useNavigation<NavigationProp<RootParamList>>();
+  const [activeScreen, setActiveScreen] =
+    useState<keyof RootParamList>("Dictionary");
+
   return (
     <View style={{ flex: 1 }}>
       <Header />
 
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Dictionary" component={Dictionary} />
-        <Stack.Screen name="Recommend" component={Recommend} />
-        <Stack.Screen name="Training" component={Training} />
+        <Stack.Screen
+          name="Dictionary"
+          component={Dictionary}
+          listeners={{
+            focus: () => setActiveScreen("Dictionary"),
+          }}
+        />
+        <Stack.Screen
+          name="Recommend"
+          component={Recommend}
+          listeners={{
+            focus: () => setActiveScreen("Recommend"),
+          }}
+        />
+        <Stack.Screen
+          name="Training"
+          component={Training}
+          listeners={{
+            focus: () => setActiveScreen("Training"),
+          }}
+        />
+        <Stack.Screen name="AddWord" component={AddWord} />
       </Stack.Navigator>
 
-      <BottomTabs navigation={navigation} />
+      <BottomTabs navigation={navigation} activeScreen={activeScreen} />
     </View>
   );
 }
