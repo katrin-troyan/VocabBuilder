@@ -9,31 +9,41 @@ import { ArrowBotton, Search } from "../../assets/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useEffect, useState } from "react";
+import { mockWords } from "../../data/mockWords";
+import { mockCategories } from "../../data/mockCategories";
 
 export default function Filters() {
-  const dispatch = useDispatch();
-
-  const categories = useSelector((state: RootState) => state.categories.items);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [verbType, setVerbType] = useState<"regular" | "irregular" | null>(
     null
   );
 
-  useEffect(() => {
-    dispatch(getCategories());
-  }, [dispatch]);
+  const [filteredWords, setFilteredWords] = useState(mockWords.results);
 
   useEffect(() => {
-    const trimmed = search.trim();
+    const trimmed = search.trim().toLowerCase();
 
     const timer = setTimeout(() => {
-      console.log("Send search query:", {
-        keyword: trimmed,
-        category,
-        verbType,
-      });
+      let words = mockWords.results;
+
+      if (trimmed) {
+        words = words.filter((word) => word.en.toLowerCase().includes(trimmed));
+      }
+
+      if (category !== "all") {
+        words = words.filter((word) => word.category === category);
+      }
+
+      if (category === "verb" && verbType) {
+        words = words.filter(
+          (word) => word.isIrregular === (verbType === "irregular")
+        );
+      }
+
+      setFilteredWords(words);
     }, 300);
+
     return () => clearTimeout(timer);
   }, [search, category, verbType]);
 
@@ -49,10 +59,33 @@ export default function Filters() {
         <Search />
       </View>
 
-      <TouchableOpacity style={styles.select}>
-        <Text>{category === "all" ? "Categories" : category}</Text>
-        <ArrowBotton />
-      </TouchableOpacity>
+      <View style={styles.categories}>
+        <TouchableOpacity
+          style={[
+            styles.categoryBtn,
+            category === "all" && styles.activeCategory,
+          ]}
+          onPress={() => setCategory("all")}
+        >
+          <Text>All</Text>
+        </TouchableOpacity>
+
+        {mockCategories.map((item) => (
+          <TouchableOpacity
+            key={item}
+            style={[
+              styles.categoryBtn,
+              category === item && styles.activeCategory,
+            ]}
+            onPress={() => {
+              setCategory(item);
+              setVerbType(null);
+            }}
+          >
+            <Text>{item}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
 
       {category === "verb" && (
         <View style={styles.radioWrapper}>
@@ -79,6 +112,19 @@ export default function Filters() {
           </TouchableOpacity>
         </View>
       )}
+
+      <View style={styles.results}>
+        {filteredWords.length === 0 ? (
+          <Text>No words found</Text>
+        ) : (
+          filteredWords.map((item) => (
+            <View key={item._id} style={styles.wordCard}>
+              <Text style={styles.en}>{item.en}</Text>
+              <Text style={styles.ua}>{item.ua}</Text>
+            </View>
+          ))
+        )}
+      </View>
     </View>
   );
 }
@@ -133,5 +179,46 @@ const styles = StyleSheet.create({
   activeRadio: {
     color: "#111827",
     fontWeight: "600",
+  },
+  categories: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+    marginTop: 10,
+    marginBottom: 12,
+  },
+
+  categoryBtn: {
+    borderWidth: 1,
+    borderColor: "rgba(133, 170, 159, 0.3)",
+    borderRadius: 12,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+  },
+
+  activeCategory: {
+    backgroundColor: "rgba(133, 170, 159, 0.15)",
+  },
+
+  results: {
+    marginTop: 16,
+    gap: 12,
+  },
+
+  wordCard: {
+    padding: 14,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.1)",
+  },
+
+  en: {
+    fontSize: 16,
+    fontWeight: "600",
+  },
+
+  ua: {
+    fontSize: 14,
+    color: "#444",
   },
 });
