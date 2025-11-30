@@ -9,6 +9,8 @@ import Edit from "./Edit";
 import Star from "./Star";
 import Arrow from "./Arrow";
 import Plus from "./Plus";
+import ArrowBotton from "./ArrowBotton";
+import Search from "./Search";
 
 export {
   EyeOff,
@@ -22,4 +24,6 @@ export {
   Star,
   Arrow,
   Plus,
+  ArrowBotton,
+  Search,
 };
