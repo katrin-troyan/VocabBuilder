@@ -6,20 +6,21 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { ArrowBotton, Search } from "../../assets/icons";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import { useEffect, useState } from "react";
 import { mockWords } from "../../data/mockWords";
 import { mockCategories } from "../../data/mockCategories";
 
-export default function Filters() {
+type FiltersProps = {
+  onFilter: (words: any[]) => void;
+};
+
+export default function Filters({ onFilter }: FiltersProps) {
+  const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [verbType, setVerbType] = useState<"regular" | "irregular" | null>(
     null
   );
-
-  const [filteredWords, setFilteredWords] = useState(mockWords.results);
 
   useEffect(() => {
     const trimmed = search.trim().toLowerCase();
@@ -35,13 +36,13 @@ export default function Filters() {
         words = words.filter((word) => word.category === category);
       }
 
-      if (category === "verb" && verbType) {
+      if (category === "Verb" && verbType) {
         words = words.filter(
           (word) => word.isIrregular === (verbType === "irregular")
         );
       }
 
-      setFilteredWords(words);
+      onFilter(words);
     }, 300);
 
     return () => clearTimeout(timer);
@@ -52,6 +53,7 @@ export default function Filters() {
       <View style={styles.searchWrapper}>
         <TextInput
           placeholder="Find the word"
+          placeholderTextColor="#121417"
           value={search}
           onChangeText={setSearch}
           style={styles.input}
@@ -59,37 +61,43 @@ export default function Filters() {
         <Search />
       </View>
 
-      <View style={styles.categories}>
-        <TouchableOpacity
-          style={[
-            styles.categoryBtn,
-            category === "all" && styles.activeCategory,
-          ]}
-          onPress={() => setCategory("all")}
-        >
-          <Text>All</Text>
-        </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.select}
+        onPress={() => setIsOpen((prev) => !prev)}
+      >
+        <Text style={styles.selectText}>
+          {category === "all" ? "Categories" : category}
+        </Text>
+        <ArrowBotton />
+      </TouchableOpacity>
 
-        {mockCategories.map((item) => (
-          <TouchableOpacity
-            key={item}
-            style={[
-              styles.categoryBtn,
-              category === item && styles.activeCategory,
-            ]}
-            onPress={() => {
-              setCategory(item);
-              setVerbType(null);
-            }}
-          >
-            <Text>{item}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+      {isOpen && (
+        <View style={styles.dropdown}>
+          {mockCategories.map((item) => (
+            <TouchableOpacity
+              key={item}
+              style={styles.dropdownItem}
+              onPress={() => {
+                setCategory(item);
+                setVerbType(null);
+                setIsOpen(false);
+              }}
+            >
+              <Text>{item}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
 
-      {category === "verb" && (
+      {category === "Verb" && (
         <View style={styles.radioWrapper}>
-          <TouchableOpacity onPress={() => setVerbType("regular")}>
+          <TouchableOpacity
+            style={styles.radioButton}
+            onPress={() => setVerbType("regular")}
+          >
+            <View style={styles.radioCircle}>
+              {verbType === "regular" && <View style={styles.radioInner} />}
+            </View>
             <Text
               style={[
                 styles.radioText,
@@ -100,7 +108,14 @@ export default function Filters() {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => setVerbType("irregular")}>
+          <TouchableOpacity
+            style={styles.radioButton}
+            onPress={() => setVerbType("irregular")}
+          >
+            <View style={styles.radioCircle}>
+              {verbType === "irregular" && <View style={styles.radioInner} />}
+            </View>
+
             <Text
               style={[
                 styles.radioText,
@@ -112,19 +127,6 @@ export default function Filters() {
           </TouchableOpacity>
         </View>
       )}
-
-      <View style={styles.results}>
-        {filteredWords.length === 0 ? (
-          <Text>No words found</Text>
-        ) : (
-          filteredWords.map((item) => (
-            <View key={item._id} style={styles.wordCard}>
-              <Text style={styles.en}>{item.en}</Text>
-              <Text style={styles.ua}>{item.ua}</Text>
-            </View>
-          ))
-        )}
-      </View>
     </View>
   );
 }
@@ -142,7 +144,6 @@ const styles = StyleSheet.create({
     borderColor: "rgba(133, 170, 159, 0.1)",
     borderRadius: 15,
     paddingHorizontal: 24,
-    paddingVertical: 12,
     height: 48,
     marginBottom: 8,
   },
@@ -152,33 +153,18 @@ const styles = StyleSheet.create({
     fontFamily: "FixelDisplayMedium",
     fontSize: 16,
     lineHeight: 24,
+    color: "#121417",
   },
 
   select: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     borderWidth: 1,
     borderColor: "rgba(133, 170, 159, 0.1)",
     borderRadius: 15,
     paddingHorizontal: 24,
-    paddingVertical: 12,
     height: 48,
-    justifyContent: "center",
-  },
-
-  radioWrapper: {
-    flexDirection: "row",
-    gap: 16,
-    marginTop: 8,
-  },
-
-  radioText: {
-    fontSize: 12,
-    fontFamily: "FixelDisplayRegular",
-    color: "#121417",
-  },
-
-  activeRadio: {
-    color: "#111827",
-    fontWeight: "600",
   },
   categories: {
     flexDirection: "row",
@@ -200,25 +186,62 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(133, 170, 159, 0.15)",
   },
 
-  results: {
-    marginTop: 16,
-    gap: 12,
+  dropdown: {
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    marginTop: 6,
+    elevation: 5,
+    shadowColor: "#121417",
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
   },
 
-  wordCard: {
-    padding: 14,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "rgba(0,0,0,0.1)",
+  dropdownItem: {
+    paddingVertical: 8,
   },
 
-  en: {
-    fontSize: 16,
+  selectText: {
+    fontFamily: "FixelDisplayMedium",
+  },
+  radioWrapper: {
+    flexDirection: "row",
+    gap: 16,
+    marginTop: 8,
+  },
+
+  radioButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+
+  radioCircle: {
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    borderWidth: 2,
+    borderColor: "#85AA9F",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  radioInner: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: "#85AA9F",
+  },
+
+  radioText: {
+    fontSize: 12,
+    fontFamily: "FixelDisplayRegular",
+    color: "#121417",
+  },
+
+  activeRadio: {
     fontWeight: "600",
-  },
-
-  ua: {
-    fontSize: 14,
-    color: "#444",
   },
 });
