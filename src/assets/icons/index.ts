@@ -11,6 +11,8 @@ import Arrow from "./Arrow";
 import Plus from "./Plus";
 import ArrowBotton from "./ArrowBotton";
 import Search from "./Search";
+import EditPen from "./EditPen";
+import Delete from "./Delete";
 
 export {
   EyeOff,
@@ -26,4 +28,6 @@ export {
   Plus,
   ArrowBotton,
   Search,
+  EditPen,
+  Delete,
 };

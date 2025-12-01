@@ -1,8 +1,10 @@
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Avatar, Logout } from "../../assets/icons";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, TypedUseSelectorHook } from "react-redux";
 import { RootState } from "../../redux/store";
 import { logout } from "../../redux/auth/authSlice";
+
+const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export default function Header() {
   const user = useSelector((state: RootState) => state.auth.user);
