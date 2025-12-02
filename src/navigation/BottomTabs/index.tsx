@@ -1,8 +1,8 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Book, Edit, Star } from "../../assets/icons";
-import { useEffect, useState } from "react";
-import { NavigationProp, useRoute } from "@react-navigation/native";
+import { NavigationProp } from "@react-navigation/native";
 import { RootParamList } from "../types";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = {
   navigation: NavigationProp<RootParamList>;
@@ -10,27 +10,27 @@ type Props = {
 };
 
 export default function BottomTabs({ navigation, activeScreen }: Props) {
-  const handlePress = (screen: keyof RootParamList) => {
-    navigation.navigate(screen);
-  };
-
-  const active = activeScreen;
+  const insets = useSafeAreaInsets();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingBottom: insets.bottom }]}>
       <TouchableOpacity
         style={styles.wrapper}
-        onPress={() => handlePress("Dictionary")}
+        onPress={() => navigation.navigate("Dictionary")}
       >
         <Book
-          stroke={active === "Dictionary" ? "#FCFCFC" : "rgba(252,252,252,0.5)"}
+          stroke={
+            activeScreen === "Dictionary" ? "#FCFCFC" : "rgba(252,252,252,0.5)"
+          }
         />
         <Text
           style={[
             styles.text,
             {
               color:
-                active === "Dictionary" ? "#FCFCFC" : "rgba(252,252,252,0.5)",
+                activeScreen === "Dictionary"
+                  ? "#FCFCFC"
+                  : "rgba(252,252,252,0.5)",
             },
           ]}
         >
@@ -40,17 +40,21 @@ export default function BottomTabs({ navigation, activeScreen }: Props) {
 
       <TouchableOpacity
         style={styles.wrapper}
-        onPress={() => handlePress("Recommend")}
+        onPress={() => navigation.navigate("Recommend")}
       >
         <Star
-          stroke={active === "Recommend" ? "#FCFCFC" : "rgba(252,252,252,0.5)"}
+          stroke={
+            activeScreen === "Recommend" ? "#FCFCFC" : "rgba(252,252,252,0.5)"
+          }
         />
         <Text
           style={[
             styles.text,
             {
               color:
-                active === "Recommend" ? "#FCFCFC" : "rgba(252,252,252,0.5)",
+                activeScreen === "Recommend"
+                  ? "#FCFCFC"
+                  : "rgba(252,252,252,0.5)",
             },
           ]}
         >
@@ -60,17 +64,21 @@ export default function BottomTabs({ navigation, activeScreen }: Props) {
 
       <TouchableOpacity
         style={styles.wrapper}
-        onPress={() => handlePress("Training")}
+        onPress={() => navigation.navigate("Training")}
       >
         <Edit
-          stroke={active === "Training" ? "#FCFCFC" : "rgba(252,252,252,0.5)"}
+          stroke={
+            activeScreen === "Training" ? "#FCFCFC" : "rgba(252,252,252,0.5)"
+          }
         />
         <Text
           style={[
             styles.text,
             {
               color:
-                active === "Training" ? "#FCFCFC" : "rgba(252,252,252,0.5)",
+                activeScreen === "Training"
+                  ? "#FCFCFC"
+                  : "rgba(252,252,252,0.5)",
             },
           ]}
         >

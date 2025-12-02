@@ -140,7 +140,6 @@ export default function WordsTable() {
             setWords((prev) =>
               prev.map((w) => (w._id === updated._id ? updated : w))
             );
-            setShowEditModal(false);
           }}
         />
       </View>
