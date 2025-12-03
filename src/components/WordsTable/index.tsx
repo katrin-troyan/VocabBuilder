@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -12,8 +12,8 @@ import EditWordModal from "../EditWordModal";
 import { Word } from "../../types/word";
 import { Delete, EditPen } from "../../assets/icons";
 
-export default function WordsTable() {
-  const [words, setWords] = useState(mockOwnWords.results);
+export default function WordsTable({ data }: { data: Word[] }) {
+  const [words, setWords] = useState<Word[]>(data);
   const [selectedWord, setSelectedWord] = useState<Word | null>(null);
   const [showActions, setShowActions] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -22,6 +22,10 @@ export default function WordsTable() {
     setWords((prev) => prev.filter((w) => w._id !== id));
     setShowActions(false);
   };
+
+  useEffect(() => {
+    setWords(data);
+  }, [data]);
 
   return (
     <TouchableWithoutFeedback

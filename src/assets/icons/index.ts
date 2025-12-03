@@ -13,6 +13,10 @@ import ArrowBotton from "./ArrowBotton";
 import Search from "./Search";
 import EditPen from "./EditPen";
 import Delete from "./Delete";
+import First from "./First";
+import Next from "./Next";
+import Prev from "./Prev";
+import Last from "./Last";
 
 export {
   EyeOff,
@@ -30,4 +34,8 @@ export {
   Search,
   EditPen,
   Delete,
+  First,
+  Next,
+  Prev,
+  Last,
 };
