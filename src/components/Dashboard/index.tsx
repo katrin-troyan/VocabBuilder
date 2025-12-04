@@ -9,25 +9,22 @@ type DashboardProps = {
   onAddWordPress?: () => void;
   onTrainPress: () => void;
   showAddWord?: boolean;
-};
-type Word = {
-  _id: string;
-  en: string;
-  ua: string;
-  category: string;
-  isIrregular?: boolean;
+  onFilter: (words: any[]) => void;
+  allWords: any[];
 };
 
 export default function Dashboard({
   onAddWordPress,
   onTrainPress,
   showAddWord = true,
+  onFilter,
+  allWords,
 }: DashboardProps) {
   const [words, setWords] = useState(mockWords.results);
 
   return (
     <View>
-      <Filters onFilter={setWords} />
+      <Filters data={allWords} onFilter={onFilter} />
       <Statistics />
       <View style={styles.wrapper}>
         {showAddWord && (

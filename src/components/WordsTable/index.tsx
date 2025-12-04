@@ -23,9 +23,9 @@ export default function WordsTable({ data }: { data: Word[] }) {
     setShowActions(false);
   };
 
-  useEffect(() => {
-    setWords(data);
-  }, [data]);
+useEffect(() => {
+  setWords(data);
+}, [data]);
 
   return (
     <TouchableWithoutFeedback

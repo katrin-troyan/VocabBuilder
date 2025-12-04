@@ -9,12 +9,14 @@ import { ArrowBotton, Search } from "../../assets/icons";
 import { useEffect, useState } from "react";
 import { mockWords } from "../../data/mockWords";
 import { mockCategories } from "../../data/mockCategories";
+import { Word } from "../../types/word";
 
 type FiltersProps = {
-  onFilter: (words: any[]) => void;
+  data: Word[];
+  onFilter: (words: Word[]) => void;
 };
 
-export default function Filters({ onFilter }: FiltersProps) {
+export default function Filters({ data, onFilter }: FiltersProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
@@ -26,7 +28,7 @@ export default function Filters({ onFilter }: FiltersProps) {
     const trimmed = search.trim().toLowerCase();
 
     const timer = setTimeout(() => {
-      let words = mockWords.results;
+      let words = data;
 
       if (trimmed) {
         words = words.filter((word) => word.en.toLowerCase().includes(trimmed));
@@ -36,7 +38,7 @@ export default function Filters({ onFilter }: FiltersProps) {
         words = words.filter((word) => word.category === category);
       }
 
-      if (category === "Verb" && verbType) {
+      if (category === "verb" && verbType) {
         words = words.filter(
           (word) => word.isIrregular === (verbType === "irregular")
         );
@@ -46,7 +48,7 @@ export default function Filters({ onFilter }: FiltersProps) {
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [search, category, verbType]);
+  }, [search, category, verbType, data]);
 
   return (
     <View style={styles.container}>
@@ -89,7 +91,7 @@ export default function Filters({ onFilter }: FiltersProps) {
         </View>
       )}
 
-      {category === "Verb" && (
+      {category === "verb" && (
         <View style={styles.radioWrapper}>
           <TouchableOpacity
             style={styles.radioButton}
