@@ -2,7 +2,7 @@ import { View, StyleSheet } from "react-native";
 import Dashboard from "../../components/Dashboard";
 import WordsTable from "../../components/WordsTable";
 import WordsPagination from "../../components/WordsPagination";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootParamList } from "../../navigation/types";
 import { useEffect, useState } from "react";
@@ -14,32 +14,28 @@ export default function Dictionary() {
   const navigation = useNavigation<NativeStackNavigationProp<RootParamList>>();
 
   const [allWords, setAllWords] = useState<Word[]>([]);
-  const [page, setPage] = useState(1);
-  const [words, setWords] = useState<Word[]>([]);
-  const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(false);
-
   const [filteredWords, setFilteredWords] = useState<Word[]>([]);
+  const [page, setPage] = useState(1);
+
   const paginated = filteredWords.slice((page - 1) * 4, page * 4);
 
-  const loadData = async (pageNum: number) => {
-    setLoading(true);
-
-    const response = getMockWordsPage(pageNum, 4);
-
-    setWords(response.results);
-    setFilteredWords(response.results);
-    setTotalPages(response.totalPages);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    loadData(page);
-  }, [page]);
+  const route = useRoute<any>();
 
   useEffect(() => {
     setAllWords(mockOwnWords.results);
+    setFilteredWords(mockOwnWords.results);
   }, []);
+
+  useEffect(() => {
+    if (route.params?.newWord) {
+      const word = route.params.newWord;
+
+      setAllWords((prev) => [word, ...prev]);
+      setFilteredWords((prev) => [word, ...prev]);
+      setPage(1);
+    }
+  }, [route.params?.newWord]);
+
   return (
     <View style={styles.container}>
       <Dashboard
@@ -52,7 +48,9 @@ export default function Dictionary() {
         }}
         allWords={allWords}
       />
+
       <WordsTable data={paginated} />
+
       {filteredWords.length === allWords.length && (
         <WordsPagination
           page={page}

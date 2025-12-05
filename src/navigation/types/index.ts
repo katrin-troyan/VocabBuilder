@@ -1,5 +1,7 @@
+import { Word } from "../../types/word";
+
 export type RootParamList = {
-  Dictionary: undefined;
+  Dictionary: { newWord?: Word } | undefined;
   Recommend: undefined;
   Training: undefined;
   AddWord: undefined;
