@@ -6,13 +6,23 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native";
-import { mockOwnWords } from "../../data/mockOwnWords";
+
 import ProgressBar from "../ProgressBar";
 import EditWordModal from "../EditWordModal";
 import { Word } from "../../types/word";
 import { Delete, EditPen } from "../../assets/icons";
 
-export default function WordsTable({ data }: { data: Word[] }) {
+type Props = {
+  data: Word[];
+  mode?: "dictionary" | "recommend"; // новий проп
+  onAddToDictionary?: (word: Word) => void; // новий проп
+};
+
+export default function WordsTable({
+  data,
+  mode = "dictionary",
+  onAddToDictionary,
+}: Props) {
   const [words, setWords] = useState<Word[]>(data);
   const [selectedWord, setSelectedWord] = useState<Word | null>(null);
   const [showActions, setShowActions] = useState(false);
@@ -23,9 +33,9 @@ export default function WordsTable({ data }: { data: Word[] }) {
     setShowActions(false);
   };
 
-useEffect(() => {
-  setWords(data);
-}, [data]);
+  useEffect(() => {
+    setWords(data);
+  }, [data]);
 
   return (
     <TouchableWithoutFeedback
