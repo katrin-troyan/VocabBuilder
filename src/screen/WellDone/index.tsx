@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import {
   View,
   Text,
@@ -25,7 +25,7 @@ const WellDoneScreen = () => {
       <Text style={styles.title}>Well done</Text>
 
       <View style={styles.tablesWrapper}>
-        {/* Correct */}
+      
         <View style={styles.column}>
           <Text style={styles.columnTitle}>Correct answers:</Text>
           {correct.length > 0 ? (
@@ -39,7 +39,7 @@ const WellDoneScreen = () => {
           )}
         </View>
 
-        {/* Mistakes */}
+    
         <View style={styles.column}>
           <Text style={styles.columnTitle}>Mistakes:</Text>
           {mistakes.length > 0 ? (
@@ -54,7 +54,7 @@ const WellDoneScreen = () => {
         </View>
       </View>
 
-      {/* Return button */}
+   
       <TouchableOpacity
         style={styles.btn}
         onPress={() => navigation.navigate("Dictionary")}
@@ -116,4 +116,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
   },
-});
+});*/
