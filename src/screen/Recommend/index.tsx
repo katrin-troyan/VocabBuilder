@@ -47,7 +47,7 @@ export default function RecommendScreen() {
         allWords={allWords}
       />
 
-      <WordsTable data={paginated} />
+      <WordsTable data={paginated} mode="recommend" />
 
       {filteredWords.length === allWords.length && (
         <WordsPagination

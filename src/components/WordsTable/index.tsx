@@ -10,12 +10,12 @@ import {
 import ProgressBar from "../ProgressBar";
 import EditWordModal from "../EditWordModal";
 import { Word } from "../../types/word";
-import { Delete, EditPen } from "../../assets/icons";
+import { ArrowRight, Delete, EditPen } from "../../assets/icons";
 
 type Props = {
   data: Word[];
-  mode?: "dictionary" | "recommend"; // новий проп
-  onAddToDictionary?: (word: Word) => void; // новий проп
+  mode?: "dictionary" | "recommend";
+  onAddToDictionary?: (word: Word) => void;
 };
 
 export default function WordsTable({
@@ -62,7 +62,7 @@ export default function WordsTable({
             style={[styles.cell, styles.cellProgress, styles.header]}
             numberOfLines={1}
           >
-            Progress
+            {mode === "dictionary" ? "Progress" : "Category"}
           </Text>
           <Text
             style={[
@@ -80,67 +80,77 @@ export default function WordsTable({
             <Text style={[styles.cell, styles.cellWord]}>{item.en}</Text>
             <Text style={[styles.cell, styles.cellTranslation]}>{item.ua}</Text>
             <View style={[styles.cell, styles.cellProgress]}>
-              <ProgressBar progress={item.progress} />
+              {mode === "dictionary" ? (
+                <ProgressBar progress={item.progress} />
+              ) : (
+                <Text
+                  numberOfLines={1}
+                  style={{
+                    textAlign: "center",
+                    fontSize: 14,
+                    fontFamily: "FixelDisplayMedium",
+                  }}
+                >
+                  {item.category}
+                </Text>
+              )}
             </View>
 
             <View style={[styles.cell, styles.cellActions, styles.lastCell]}>
-              <TouchableOpacity
-                onPress={() => {
-                  if (selectedWord?._id === item._id && showActions) {
-                    setShowActions(false);
-                  } else {
-                    setSelectedWord(item);
-                    setShowActions(true);
-                  }
-                }}
-              >
-                <Text
-                  style={[
-                    styles.actions,
-                    {
-                      color:
-                        selectedWord?._id === item._id && showActions
-                          ? "#121417"
-                          : "rgba(18,20,23,0.5)",
-                    },
-                  ]}
-                >
-                  ...
-                </Text>
-              </TouchableOpacity>
-
-              {selectedWord?._id === item._id && showActions && (
-                <View style={styles.actionsBoxRelative}>
+              {mode === "dictionary" ? (
+                <>
                   <TouchableOpacity
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: 4,
-                      marginBottom: 8,
-                    }}
                     onPress={() => {
-                      setShowActions(false);
-                      setShowEditModal(true);
+                      if (selectedWord?._id === item._id && showActions) {
+                        setShowActions(false);
+                      } else {
+                        setSelectedWord(item);
+                        setShowActions(true);
+                      }
                     }}
                   >
-                    <EditPen />
-                    <Text style={styles.actionBtn}>Edit</Text>
+                    <Text
+                      style={[
+                        styles.actions,
+                        {
+                          color:
+                            selectedWord?._id === item._id && showActions
+                              ? "#121417"
+                              : "rgba(18,20,23,0.5)",
+                        },
+                      ]}
+                    >
+                      ...
+                    </Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: 4,
-                    }}
-                    onPress={() =>
-                      selectedWord && handleDelete(selectedWord._id)
-                    }
-                  >
-                    <Delete />
-                    <Text style={styles.actionBtn}>Delete</Text>
-                  </TouchableOpacity>
-                </View>
+                  {selectedWord?._id === item._id && showActions && (
+                    <View style={styles.actionsBoxRelative}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          setShowActions(false);
+                          setShowEditModal(true);
+                        }}
+                      >
+                        <EditPen />
+                        <Text style={styles.actionBtn}>Edit</Text>
+                      </TouchableOpacity>
+
+                      <TouchableOpacity
+                        onPress={() =>
+                          selectedWord && handleDelete(selectedWord._id)
+                        }
+                      >
+                        <Delete />
+                        <Text style={styles.actionBtn}>Delete</Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                </>
+              ) : (
+                <TouchableOpacity onPress={() => onAddToDictionary?.(item)}>
+                  <ArrowRight />
+                </TouchableOpacity>
               )}
             </View>
           </View>

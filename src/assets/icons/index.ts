@@ -17,6 +17,7 @@ import First from "./First";
 import Next from "./Next";
 import Prev from "./Prev";
 import Last from "./Last";
+import ArrowRight from "./ArrowRight";
 
 export {
   EyeOff,
@@ -38,4 +39,5 @@ export {
   Next,
   Prev,
   Last,
+  ArrowRight,
 };
