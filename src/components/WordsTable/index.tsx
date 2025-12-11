@@ -81,7 +81,12 @@ export default function WordsTable({
             <Text style={[styles.cell, styles.cellTranslation]}>{item.ua}</Text>
             <View style={[styles.cell, styles.cellProgress]}>
               {mode === "dictionary" ? (
-                <ProgressBar progress={item.progress} />
+                <ProgressBar
+                  progress={item.progress}
+                  size={24}
+                  strokeWidth={3}
+                  showLabel={false}
+                />
               ) : (
                 <Text
                   numberOfLines={1}
@@ -195,7 +200,7 @@ const styles = StyleSheet.create({
 
   cellWord: { flex: 1 },
   cellTranslation: { flex: 1.5 },
-  cellProgress: { flex: 1.2 },
+  cellProgress: { flex: 1.2, alignItems: "center", justifyContent: "center" },
   cellActions: { flex: 0.5 },
 
   lastCell: {

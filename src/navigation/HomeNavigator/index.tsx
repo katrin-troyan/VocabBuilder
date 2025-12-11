@@ -45,7 +45,6 @@ export default function HomeNavigator() {
           }}
         />
         <Stack.Screen name="AddWord" component={AddWord} />
-        <Stack.Screen name="WellDone" component={WellDone} />
       </Stack.Navigator>
 
       <BottomTabs navigation={navigation} activeScreen={activeScreen} />

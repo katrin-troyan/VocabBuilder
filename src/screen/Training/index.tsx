@@ -57,17 +57,21 @@ export default function TrainingScreen() {
 
   if (!tasks.length) {
     return (
-      <View style={styles.container}>
-        <Image
-          source={require("../../assets/bloodreport.png")}
-          style={styles.image}
-        />
+      <View style={styles.containerModal}>
+        <View style={styles.imageWrapper}>
+          <Image
+            source={require("../../assets/bloodreport.png")}
+            style={styles.image}
+          />
+        </View>
         <Text style={styles.title}>
           You don't have a single word to learn right now.
         </Text>
 
         <Text style={styles.description}>
-          Please add a word to start training.
+          Please create or add a word to start the workout. We want to improve
+          your vocabulary and develop your knowledge, so please share the words
+          you are interested in adding to your study.
         </Text>
 
         <TouchableOpacity
@@ -86,50 +90,59 @@ export default function TrainingScreen() {
 
   return (
     <View style={styles.container}>
-      <ProgressBar progress={((currentIndex + 1) / tasks.length) * 100} />
-
+      <View style={styles.progressWrapper}>
+        <ProgressBar
+          progress={((currentIndex + 1) / tasks.length) * 100}
+          size={44}
+          strokeWidth={6}
+          showLabel
+          label={currentIndex + 1}
+        />
+      </View>
       <TrainingRoom tasks={tasks} onIndexChange={setCurrentIndex} />
-      <Button
-        title="Test WellDone"
-        onPress={() =>
-          navigation.navigate("WellDone", { results: ["dog", null, "sun"] })
-        }
-      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-    backgroundColor: "#F8F8F8",
-  },
-  image: {
-    width: 144,
-    height: 166,
-  },
   center: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
-
   loadingText: {
     marginTop: 12,
     fontSize: 16,
     color: "#121417",
   },
+  containerModal: {
+    flex: 1,
+    paddingTop: 50,
+    paddingHorizontal: 16,
+    paddingBottom: 32,
+    backgroundColor: "#F8F8F8",
+  },
+  imageWrapper: {
+    alignItems: "center",
+    marginBottom: 33,
+  },
+  image: {
+    width: 144,
+    height: 166,
+  },
 
   title: {
-    fontSize: 20,
+    fontFamily: "FixelDisplayMedium",
+    fontSize: 16,
     marginBottom: 16,
-    fontWeight: "600",
+    color: "#121417",
   },
 
   description: {
-    fontSize: 16,
-    marginBottom: 32,
+    fontFamily: "FixelDisplayRegular",
+    fontSize: 14,
+    lineHeight: 20,
+    marginBottom: 64,
   },
 
   addBtn: {
@@ -143,13 +156,27 @@ const styles = StyleSheet.create({
   },
 
   addBtnText: {
+    fontFamily: "FixelDisplayBold",
     color: "#FCFCFC",
     fontSize: 16,
-    fontWeight: "600",
   },
 
   cancel: {
+    fontFamily: "FixelDisplayBold",
     color: "rgba(18, 20, 23, 0.5)",
     fontSize: 16,
+    textAlign: "center",
+  },
+  container: {
+    flex: 1,
+    paddingTop: 15,
+    paddingHorizontal: 16,
+    paddingBottom: 32,
+    backgroundColor: "#F8F8F8",
+  },
+  progressWrapper: {
+    width: "100%",
+    alignItems: "flex-end",
+    marginBottom: 8,
   },
 });
