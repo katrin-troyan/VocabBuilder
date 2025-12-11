@@ -5,4 +5,7 @@ export type RootParamList = {
   Recommend: undefined;
   Training: undefined;
   AddWord: undefined;
+  WellDone: {
+    results: (string | null)[];
+  };
 };

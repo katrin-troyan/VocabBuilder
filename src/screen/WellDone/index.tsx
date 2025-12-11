@@ -1,4 +1,4 @@
-/*import React from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -7,25 +7,29 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootParamList } from "../../navigation/types";
 
-const WellDoneScreen = () => {
-  const navigation = useNavigation();
-  const route = useRoute();
+export default function WellDoneScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootParamList>>();
+  const route = useRoute<RouteProp<RootParamList, "WellDone">>();
 
-  const { correct = [], mistakes = [] } = route.params || {};
+  const { results = [] } = route.params || {};
+
+  const correct = results.filter((r) => r !== null);
+  const mistakes = results.filter((r) => r === null);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image
-        source={require("../../assets/images/book.png")}
+        source={require("../../assets/openbook.png")}
         style={styles.icon}
       />
 
       <Text style={styles.title}>Well done</Text>
 
       <View style={styles.tablesWrapper}>
-      
         <View style={styles.column}>
           <Text style={styles.columnTitle}>Correct answers:</Text>
           {correct.length > 0 ? (
@@ -39,13 +43,12 @@ const WellDoneScreen = () => {
           )}
         </View>
 
-    
         <View style={styles.column}>
           <Text style={styles.columnTitle}>Mistakes:</Text>
           {mistakes.length > 0 ? (
-            mistakes.map((word: string, idx: number) => (
+            mistakes.map((_, idx: number) => (
               <Text key={idx} style={styles.wordText}>
-                {word}
+                -
               </Text>
             ))
           ) : (
@@ -53,67 +56,50 @@ const WellDoneScreen = () => {
           )}
         </View>
       </View>
-
-   
-      <TouchableOpacity
-        style={styles.btn}
-        onPress={() => navigation.navigate("Dictionary")}
-      >
-        <Text style={styles.btnText}>Return to dictionary</Text>
-      </TouchableOpacity>
     </ScrollView>
   );
-};
-
-export default WellDoneScreen;
+}
 
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    paddingVertical: 40,
-    paddingHorizontal: 20,
+    paddingVertical: 32,
+    paddingHorizontal: 32,
   },
   icon: {
-    width: 90,
-    height: 90,
-    marginBottom: 15,
+    width: 140,
+    height: 112,
+    marginBottom: 32,
   },
   title: {
-    fontSize: 28,
-    fontWeight: "600",
-    marginBottom: 25,
+    fontFamily: "FixelDisplaySemiBold",
+    fontSize: 24,
+    lineHeight: 28,
+    marginBottom: 32,
   },
   tablesWrapper: {
     flexDirection: "row",
-    gap: 30,
-    marginBottom: 40,
+    gap: 32,
   },
   column: {
     width: 130,
   },
   columnTitle: {
+    fontFamily: "FixelDisplayRegular",
     fontSize: 14,
-    fontWeight: "600",
-    marginBottom: 10,
+    marginBottom: 8,
+    color: "rgba(18, 20, 23, 0.5)",
   },
   wordText: {
-    fontSize: 15,
-    paddingVertical: 2,
+    fontFamily: "FixelDisplayMedium",
+    fontSize: 16,
+    color: "#121417",
+    marginBottom: 4,
   },
   empty: {
-    fontSize: 14,
-    color: "#777",
-  },
-  btn: {
-    marginTop: 20,
-    paddingHorizontal: 30,
-    paddingVertical: 15,
-    backgroundColor: "#000",
-    borderRadius: 12,
-  },
-  btnText: {
-    color: "#fff",
+    fontFamily: "FixelDisplayMedium",
     fontSize: 16,
-    fontWeight: "600",
+    color: "#121417",
+    marginBottom: 4,
   },
-});*/
+});

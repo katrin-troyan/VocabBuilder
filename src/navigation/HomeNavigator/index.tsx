@@ -9,6 +9,7 @@ import Training from "../../screen/Training";
 import { RootParamList } from "../types";
 import AddWord from "../../screen/AddWord";
 import { useState } from "react";
+import WellDone from "../../screen/WellDone";
 
 const Stack = createNativeStackNavigator();
 
@@ -44,6 +45,7 @@ export default function HomeNavigator() {
           }}
         />
         <Stack.Screen name="AddWord" component={AddWord} />
+        <Stack.Screen name="WellDone" component={WellDone} />
       </Stack.Navigator>
 
       <BottomTabs navigation={navigation} activeScreen={activeScreen} />

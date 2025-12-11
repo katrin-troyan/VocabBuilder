@@ -6,12 +6,14 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Image,
+  Button,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootParamList } from "../../navigation/types";
 import { mockOwnWords } from "../../data/mockOwnWords";
 import ProgressBar from "../../components/ProgressBar";
+import TrainingRoom from "../../components/TrainingRoom";
 
 const mockFetchTrainingTasks = () => {
   return new Promise((resolve) => {
@@ -27,13 +29,14 @@ export default function TrainingScreen() {
   const [loading, setLoading] = useState(true);
   const [tasks, setTasks] = useState<any[]>([]);
   const [error, setError] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const load = async () => {
       try {
         const data: any = await mockFetchTrainingTasks();
         setTasks(data);
-      } catch (e: any) {
+      } catch {
         setError("Failed to load training tasks");
       } finally {
         setLoading(false);
@@ -64,9 +67,7 @@ export default function TrainingScreen() {
         </Text>
 
         <Text style={styles.description}>
-          Please create or add a word to start the workout. We want to improve
-          your vocabulary and develop your knowledge, so please share the words
-          you are interested in adding to your study.
+          Please add a word to start training.
         </Text>
 
         <TouchableOpacity
@@ -85,7 +86,15 @@ export default function TrainingScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Training</Text>
+      <ProgressBar progress={((currentIndex + 1) / tasks.length) * 100} />
+
+      <TrainingRoom tasks={tasks} onIndexChange={setCurrentIndex} />
+      <Button
+        title="Test WellDone"
+        onPress={() =>
+          navigation.navigate("WellDone", { results: ["dog", null, "sun"] })
+        }
+      />
     </View>
   );
 }
@@ -108,24 +117,18 @@ const styles = StyleSheet.create({
 
   loadingText: {
     marginTop: 12,
-    fontFamily: "FixelDisplayRegular",
     fontSize: 16,
     color: "#121417",
   },
 
   title: {
-    fontFamily: "FixelDisplaySemiBold",
     fontSize: 20,
-    lineHeight: 28,
-    color: "#121417",
     marginBottom: 16,
+    fontWeight: "600",
   },
 
   description: {
-    fontFamily: "FixelDisplayRegular",
     fontSize: 16,
-    lineHeight: 24,
-    color: "#121417",
     marginBottom: 32,
   },
 
@@ -140,13 +143,12 @@ const styles = StyleSheet.create({
   },
 
   addBtnText: {
-    fontFamily: "FixelDisplayBold",
     color: "#FCFCFC",
     fontSize: 16,
+    fontWeight: "600",
   },
 
   cancel: {
-    fontFamily: "FixelDisplayBold",
     color: "rgba(18, 20, 23, 0.5)",
     fontSize: 16,
   },
