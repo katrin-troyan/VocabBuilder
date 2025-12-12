@@ -7,21 +7,24 @@ import {
   StyleSheet,
   Keyboard,
   TouchableWithoutFeedback,
+  Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootParamList } from "../../navigation/types";
+import { ArrowRight } from "../../assets/icons";
 
 type TrainingNav = NativeStackNavigationProp<RootParamList>;
 
 export default function TrainingRoom({
   tasks,
   onIndexChange,
+  navigation,
 }: {
   tasks: any[];
   onIndexChange: (i: number) => void;
+  navigation: NativeStackNavigationProp<RootParamList>;
 }) {
-  const navigation = useNavigation<TrainingNav>();
   const [index, setIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [answers, setAnswers] = useState<(string | null)[]>([]);
@@ -29,19 +32,15 @@ export default function TrainingRoom({
   const current = tasks[index];
 
   useEffect(() => {
-    onIndexChange(0);
-  }, []);
+    onIndexChange(index);
+  }, [index, onIndexChange]);
 
   const onNext = () => {
     setAnswers((prev) => [...prev, answer || null]);
     setAnswer("");
 
     if (index < tasks.length - 1) {
-      setIndex((prev) => {
-        const newIndex = prev + 1;
-        onIndexChange(newIndex);
-        return newIndex;
-      });
+      setIndex((prev) => prev + 1);
     }
   };
 
@@ -62,34 +61,57 @@ export default function TrainingRoom({
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.block}>
-        <View style={styles.leftCol}>
-          <Text style={styles.label}>Enter translation</Text>
+      <View>
+        <View style={styles.block}>
+          <View style={styles.containerTop}>
+            <Text style={styles.label}>Введіть переклад</Text>
 
-          <TextInput
-            style={styles.input}
-            placeholder="Переклад..."
-            value={answer}
-            onChangeText={setAnswer}
-          />
+            <TextInput
+              style={styles.input}
+              value={answer}
+              onChangeText={setAnswer}
+            />
+            <View style={styles.rowBetween}>
+              {index < tasks.length - 1 && (
+                <TouchableOpacity style={styles.wrapperNext} onPress={onNext}>
+                  <Text style={styles.next}>Next</Text>
+                  <ArrowRight color="rgba(18, 20, 23, 0.5)" />
+                </TouchableOpacity>
+              )}
 
-          {index < tasks.length - 1 && (
-            <TouchableOpacity onPress={onNext}>
-              <Text style={styles.next}>Next →</Text>
-            </TouchableOpacity>
-          )}
+              <View style={styles.wrapper}>
+                <Image
+                  source={require("../../assets/ukraine.png")}
+                  style={styles.image}
+                  resizeMode="contain"
+                />
+                <Text style={styles.labelImage}>Ukrainian</Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.containerBottom}>
+            <Text style={styles.word}>{current.en}</Text>
+            <View style={styles.alignRight}>
+              <View style={styles.wrapper}>
+                <Image
+                  source={require("../../assets/unitedkingdom.png")}
+                  style={styles.image}
+                  resizeMode="contain"
+                />
+                <Text style={styles.labelImage}>English</Text>
+              </View>
+            </View>
+          </View>
         </View>
-
-        <View style={styles.rightCol}>
-          <Text style={styles.word}>{current.en}</Text>
-          <Text style={styles.language}>Ukrainian 🇺🇦</Text>
-        </View>
-
-        {index === tasks.length - 1 && (
+        <View style={styles.btnRow}>
           <TouchableOpacity style={styles.saveBtn} onPress={onSave}>
             <Text style={styles.saveText}>Save</Text>
           </TouchableOpacity>
-        )}
+
+          <TouchableOpacity onPress={() => navigation.navigate("Dictionary")}>
+            <Text style={styles.cancel}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -97,50 +119,99 @@ export default function TrainingRoom({
 
 const styles = StyleSheet.create({
   block: {
-    marginTop: 24,
-    padding: 16,
-    backgroundColor: "#fff",
-    borderRadius: 12,
+    padding: 22,
+    backgroundColor: "#FcFcFc",
+    borderTopRightRadius: 8,
+    borderTopLeftRadius: 8,
   },
-  leftCol: {
-    marginBottom: 24,
-  },
-  rightCol: {
-    alignItems: "flex-end",
-    marginBottom: 32,
+  containerTop: {
+    height: 195,
+    borderBottomWidth: 1,
+    borderBottomColor: "#DBDBDB",
   },
   label: {
+    fontFamily: "FixelDisplayMedium",
     fontSize: 16,
-    marginBottom: 8,
+    lineHeight: 24,
+    color: "#121417",
+    marginBottom: 12,
   },
   input: {
     borderWidth: 1,
     borderColor: "#DDD",
     padding: 12,
     borderRadius: 8,
-    marginBottom: 8,
+    marginBottom: 65,
   },
-  next: {
-    color: "#85AA9F",
-    fontSize: 16,
+  rowBetween: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
-  word: {
-    fontSize: 22,
-    fontWeight: "600",
-  },
-  language: {
-    fontSize: 14,
-    color: "#666",
-  },
-  saveBtn: {
-    backgroundColor: "#85AA9F",
-    paddingVertical: 14,
-    borderRadius: 30,
+  wrapperNext: {
+    flexDirection: "row",
+    gap: 8,
     alignItems: "center",
   },
-  saveText: {
-    color: "#fff",
+  next: {
+    fontFamily: "FixelDisplayMedium",
+    color: "rgba(18, 20, 23, 0.5)",
     fontSize: 16,
-    fontWeight: "600",
+    lineHeight: 24,
+  },
+  wrapper: {
+    flexDirection: "row",
+    gap: 4.5,
+    alignItems: "center",
+  },
+  image: { width: 28, height: 28 },
+
+  labelImage: {
+    fontFamily: "FixelDisplayMedium",
+    fontSize: 14,
+  },
+  containerBottom: {
+    height: 195,
+    justifyContent: "space-between",
+  },
+
+  word: {
+    fontFamily: "FixelDisplayMedium",
+    fontSize: 16,
+    lineHeight: 24,
+    color: "#121417",
+    marginTop: 22,
+  },
+  alignRight: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  btnRow: {
+    flexDirection: "column",
+    alignItems: "center",
+    marginTop: 8,
+    width: "100%",
+    paddingHorizontal: 16,
+  },
+
+  saveBtn: {
+    width: "100%",
+    height: 56,
+    backgroundColor: "#85AA9F",
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+
+  saveText: {
+    fontFamily: "FixelDisplayBold",
+    color: "#FCFCFC",
+    fontSize: 16,
+  },
+  cancel: {
+    fontFamily: "FixelDisplayBold",
+    color: "rgba(18, 20, 23, 0.5)",
+    fontSize: 16,
   },
 });

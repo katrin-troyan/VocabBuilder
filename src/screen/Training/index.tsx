@@ -99,7 +99,11 @@ export default function TrainingScreen() {
           label={currentIndex + 1}
         />
       </View>
-      <TrainingRoom tasks={tasks} onIndexChange={setCurrentIndex} />
+      <TrainingRoom
+        tasks={tasks}
+        onIndexChange={setCurrentIndex}
+        navigation={navigation}
+      />
     </View>
   );
 }
