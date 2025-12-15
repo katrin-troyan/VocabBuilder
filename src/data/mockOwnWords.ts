@@ -20,7 +20,7 @@ export const mockOwnWords = {
     {
       _id: "13",
       en: "dog",
-      ua: "пес",
+      ua: "собака",
       category: "noun",
       owner: "user-id-1",
       progress: 0,

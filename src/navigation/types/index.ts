@@ -1,3 +1,4 @@
+import { TrainingResult } from "../../types/training";
 import { Word } from "../../types/word";
 
 export type RootParamList = {
@@ -5,5 +6,5 @@ export type RootParamList = {
   Recommend: undefined;
   Training: undefined;
   AddWord: undefined;
-  WellDone: { results: (string | null)[] };
+  WellDone: { results: TrainingResult[] };
 };

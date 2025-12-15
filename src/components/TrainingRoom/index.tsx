@@ -13,8 +13,8 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootParamList } from "../../navigation/types";
 import { ArrowRight } from "../../assets/icons";
-
-type TrainingNav = NativeStackNavigationProp<RootParamList>;
+import { mockOwnWords } from "../../data/mockOwnWords";
+import { TrainingResult } from "../../types/training";
 
 export default function TrainingRoom({
   tasks,
@@ -27,38 +27,57 @@ export default function TrainingRoom({
 }) {
   const [index, setIndex] = useState(0);
   const [answer, setAnswer] = useState("");
-  const [answers, setAnswers] = useState<(string | null)[]>([]);
+  const [answers, setAnswers] = useState<TrainingResult[]>([]);
 
   const current = tasks[index];
+
+  const normalize = (value: string) =>
+    value.trim().toLowerCase().replace(/\s+/g, " ");
 
   useEffect(() => {
     onIndexChange(index);
   }, [index, onIndexChange]);
 
   const onNext = () => {
-    setAnswers((prev) => [...prev, answer || null]);
+    const correctAnswer = current.ua;
+
+    const isCorrect =
+      answer.trim().length > 0 &&
+      normalize(answer) === normalize(correctAnswer);
+
+    setAnswers((prev) => [
+      ...prev,
+      {
+        userAnswer: answer || null,
+        correctAnswer,
+        isCorrect,
+      },
+    ]);
+
     setAnswer("");
 
     if (index < tasks.length - 1) {
       setIndex((prev) => prev + 1);
     }
   };
-
   const onSave = async () => {
-    const final = [...answers, answer || null];
+    const correctAnswer = current.ua;
 
-    const mockSend = () =>
-      new Promise((resolve) => setTimeout(() => resolve("ok"), 800));
+    const isCorrect =
+      answer.trim().length > 0 &&
+      normalize(answer) === normalize(correctAnswer);
 
-    try {
-      await mockSend();
-      navigation.navigate("WellDone", { results: final });
-    } catch (e) {
-      alert("Progress not saved. Returning to Dictionary.");
-      navigation.navigate("Dictionary");
-    }
+    const final = [
+      ...answers,
+      {
+        userAnswer: answer || null,
+        correctAnswer,
+        isCorrect,
+      },
+    ];
+
+    navigation.navigate("WellDone", { results: final });
   };
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View>

@@ -17,8 +17,8 @@ export default function WellDoneScreen() {
 
   const { results = [] } = route.params || {};
 
-  const correct = results.filter((r) => r !== null);
-  const mistakes = results.filter((r) => r === null);
+  const correct = results.filter((r) => r.isCorrect);
+  const mistakes = results.filter((r) => !r.isCorrect);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -32,28 +32,20 @@ export default function WellDoneScreen() {
       <View style={styles.tablesWrapper}>
         <View style={styles.column}>
           <Text style={styles.columnTitle}>Correct answers:</Text>
-          {correct.length > 0 ? (
-            correct.map((word: string, idx: number) => (
-              <Text key={idx} style={styles.wordText}>
-                {word}
-              </Text>
-            ))
-          ) : (
-            <Text style={styles.empty}>No correct</Text>
-          )}
+          {correct.map((r, idx) => (
+            <Text key={idx} style={styles.wordText}>
+              {r.correctAnswer}
+            </Text>
+          ))}
         </View>
 
         <View style={styles.column}>
           <Text style={styles.columnTitle}>Mistakes:</Text>
-          {mistakes.length > 0 ? (
-            mistakes.map((_, idx: number) => (
-              <Text key={idx} style={styles.wordText}>
-                -
-              </Text>
-            ))
-          ) : (
-            <Text style={styles.empty}>No mistakes</Text>
-          )}
+          {mistakes.map((r, idx) => (
+            <Text key={idx} style={styles.wordText}>
+              {r.correctAnswer}
+            </Text>
+          ))}
         </View>
       </View>
     </ScrollView>
