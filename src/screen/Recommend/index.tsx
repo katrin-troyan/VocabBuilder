@@ -20,6 +20,18 @@ export default function RecommendScreen() {
 
   const route = useRoute<any>();
 
+  const handleAddToDictionary = (word: Word) => {
+    const newWord = {
+      ...word,
+      _id: Date.now().toString(),
+      progress: 0,
+    };
+
+    navigation.navigate("Dictionary", {
+      newWord,
+    });
+  };
+
   useEffect(() => {
     setAllWords(mockOwnWords.results);
     setFilteredWords(mockOwnWords.results);
@@ -47,7 +59,11 @@ export default function RecommendScreen() {
         allWords={allWords}
       />
 
-      <WordsTable data={paginated} mode="recommend" />
+      <WordsTable
+        data={paginated}
+        mode="recommend"
+        onAddToDictionary={handleAddToDictionary}
+      />
 
       {filteredWords.length === allWords.length && (
         <WordsPagination
