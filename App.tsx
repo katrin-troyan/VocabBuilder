@@ -4,6 +4,10 @@ import { Provider } from "react-redux";
 import { store } from "./src/redux/store";
 import RootNavigator from "./src/navigation/RootNavigator/RootNavigator";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -12,6 +16,16 @@ export default function App() {
     FixelDisplayBold: require("./assets/fronts/FixelDisplay-Bold.otf"),
     FixelDisplayMedium: require("./assets/fronts/FixelDisplay-Medium.ttf"),
   });
+
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <SafeAreaProvider>

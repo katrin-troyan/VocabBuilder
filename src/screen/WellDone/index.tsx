@@ -1,18 +1,9 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootParamList } from "../../navigation/types";
 
 export default function WellDoneScreen() {
-  const navigation = useNavigation<NativeStackNavigationProp<RootParamList>>();
   const route = useRoute<RouteProp<RootParamList, "WellDone">>();
 
   const { results = [] } = route.params || {};

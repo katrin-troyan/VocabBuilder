@@ -4,8 +4,6 @@ import { useSelector, useDispatch, TypedUseSelectorHook } from "react-redux";
 import { RootState } from "../../redux/store";
 import { logout } from "../../redux/auth/authSlice";
 
-const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
-
 export default function Header() {
   const user = useSelector((state: RootState) => state.auth.user);
   const dispatch = useDispatch();

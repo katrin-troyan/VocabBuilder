@@ -7,7 +7,6 @@ import {
 } from "react-native";
 import { ArrowBotton, Search } from "../../assets/icons";
 import { useEffect, useState } from "react";
-import { mockWords } from "../../data/mockWords";
 import { mockCategories } from "../../data/mockCategories";
 import { Word } from "../../types/word";
 

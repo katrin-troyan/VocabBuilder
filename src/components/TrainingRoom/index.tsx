@@ -9,11 +9,9 @@ import {
   TouchableWithoutFeedback,
   Image,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootParamList } from "../../navigation/types";
 import { ArrowRight } from "../../assets/icons";
-import { mockOwnWords } from "../../data/mockOwnWords";
 import { TrainingResult } from "../../types/training";
 
 export default function TrainingRoom({

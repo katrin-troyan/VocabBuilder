@@ -6,7 +6,6 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootParamList } from "../../navigation/types";
 import { useEffect, useState } from "react";
-import { getMockWordsPage } from "../../data/mockPaginatedWords";
 import { Word } from "../../types/word";
 import { mockOwnWords } from "../../data/mockOwnWords";
 

@@ -1,4 +1,3 @@
-// components/ProgressBar.tsx
 import { View, Text, StyleSheet } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 
