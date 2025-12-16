@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 44,
     marginBottom: 8,
+    color: "#FFFFFF",
   },
   containerAvatar: {
     alignItems: "center",

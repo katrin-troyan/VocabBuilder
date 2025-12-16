@@ -10,19 +10,23 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#85AA9F"
+      "backgroundColor": "transparent"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#85AA9F"
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "transparent"
       },
       "package": "com.ket.tro.VocabBuilder"
     },
-    "plugins": [
-      "expo-font"
-    ]
+    "plugins": ["expo-font"],
+    "extra": {
+      "eas": {
+        "projectId": "f23cb411-8628-434c-aad8-26456887ede3"
+      }
+    }
   }
 }

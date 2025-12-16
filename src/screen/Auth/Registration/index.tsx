@@ -124,6 +124,7 @@ export default function Registration() {
                               isError && styles.invalidInput,
                               isValid && styles.validInput,
                             ]}
+                            placeholderTextColor="#4d4d4dff"
                           />
                         </View>
 
@@ -175,6 +176,7 @@ export default function Registration() {
                             ]}
                             keyboardType="email-address"
                             autoCapitalize="none"
+                            placeholderTextColor="#4d4d4dff"
                           />
                         </View>
 
@@ -225,6 +227,7 @@ export default function Registration() {
                               isValid && styles.validInput,
                             ]}
                             secureTextEntry={isPassHidden}
+                            placeholderTextColor="#4d4d4dff"
                           />
                           <TouchableOpacity
                             style={styles.passwordIcon}

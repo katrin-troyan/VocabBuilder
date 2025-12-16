@@ -134,6 +134,7 @@ export default function Login() {
                             ]}
                             keyboardType="email-address"
                             autoCapitalize="none"
+                            placeholderTextColor="#4d4d4dff"
                           />
                         </View>
 
@@ -184,6 +185,7 @@ export default function Login() {
                               isValid && styles.validInput,
                             ]}
                             secureTextEntry={isPassHidden}
+                            placeholderTextColor="#4d4d4dff"
                           />
                           <TouchableOpacity
                             style={styles.passwordIcon}
