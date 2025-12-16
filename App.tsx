@@ -7,8 +7,6 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
-SplashScreen.preventAutoHideAsync();
-
 export default function App() {
   const [fontsLoaded] = useFonts({
     FixelDisplayRegular: require("./assets/fronts/FixelDisplay-Regular.otf"),
@@ -16,6 +14,10 @@ export default function App() {
     FixelDisplayBold: require("./assets/fronts/FixelDisplay-Bold.otf"),
     FixelDisplayMedium: require("./assets/fronts/FixelDisplay-Medium.ttf"),
   });
+
+  useEffect(() => {
+    SplashScreen.preventAutoHideAsync();
+  }, []);
 
   useEffect(() => {
     if (fontsLoaded) {

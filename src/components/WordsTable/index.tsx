@@ -132,6 +132,7 @@ export default function WordsTable({
                   {selectedWord?._id === item._id && showActions && (
                     <View style={styles.actionsBoxRelative}>
                       <TouchableOpacity
+                        style={styles.actionBtnContainer}
                         onPress={() => {
                           setShowActions(false);
                           setShowEditModal(true);
@@ -142,6 +143,7 @@ export default function WordsTable({
                       </TouchableOpacity>
 
                       <TouchableOpacity
+                        style={styles.actionBtnContainer}
                         onPress={() =>
                           selectedWord && handleDelete(selectedWord._id)
                         }
@@ -225,6 +227,8 @@ const styles = StyleSheet.create({
     top: "100%",
     right: 0,
     width: 117,
+    flexDirection: "column",
+    gap: 10,
     backgroundColor: "white",
     borderRadius: 10,
     paddingVertical: 12,
@@ -235,6 +239,11 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     zIndex: 100,
+  },
+  actionBtnContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 2,
   },
 
   actionBtn: {

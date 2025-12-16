@@ -19,12 +19,10 @@
       "adaptiveIcon": {
         "backgroundColor": "#85AA9F"
       },
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "package": "com.ket.tro.VocabBuilder"
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "plugins": ["expo-font"]
+    "plugins": [
+      "expo-font"
+    ]
   }
 }
